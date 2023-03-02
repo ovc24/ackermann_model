@@ -1,0 +1,21 @@
+<launch>
+    <arg name="cmd_timeout" default="0.5"/>
+    
+    <!--rosparam file="$(find ackermann_model)/config/control_model.yaml" command="load" /-->
+    <include file="$(find ackermann_model)/launch/gazebo.launch"/>
+    
+    <!--param name="robot_description" textfile="$(find ackermann_model)/urdf/ackermann_model.urdf" /-->
+    <include file="$(find ackermann_model)/launch/display.launch"/>
+    
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" args="$(find ackermann_model)/config/joint_control_params.yaml"/>
+
+    <node name="ackermann_controller" pkg="ackermann_model" type="ackermann_controller">
+        <param name="cmd_timeout" value="$(arg cmd_timeout)"/>
+        <rosparam file="$(find  ackermann_model)/config/ackermann_control_params.yaml" command="load"/>
+    </node>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <!--remap from="/joint_states" to="/ackermann_model/joint_states" /-->
+        <param name="publish_frecuency" value="30.0"/>
+    </node>
+</launch>

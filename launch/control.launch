@@ -1,0 +1,16 @@
+<launch>
+    <rosparam file="$(find ackermann_model)/config/control_model.yaml" command="load" />
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="/ackermann_model" args="right_steering_joint_position_controller 
+                                                    left_steering_joint_position_controller 
+                                                    right_front_axle_ctrlr
+                                                    left_front_axle_ctrlr
+                                                    right_rear_axle_ctrlr
+                                                    left_rear_axle_ctrlr
+                                                    joint_state_controller --shutdown-timeout 3"/>
+    <include file="$(find ackermann_model)/launch/gazebo.launch"/>
+    <include file="$(find ackermann_model)/launch/display.launch"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <remap from="/joint_states" to="/ackermann_model/joint_states" />
+    </node>
+</launch>

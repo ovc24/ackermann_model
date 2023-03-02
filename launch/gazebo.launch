@@ -1,6 +1,5 @@
 <launch>
-  <include
-    file="$(find gazebo_ros)/launch/empty_world.launch" />
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" />
   <node
     name="tf_footprint_base"
     pkg="tf"
@@ -12,9 +11,9 @@
     type="spawn_model"
     args="-file $(find ackermann_model)/urdf/ackermann_model.urdf -urdf -model ackermann_model"
     output="screen" />
-  <node
+  <!--node
     name="fake_joint_calibration"
     pkg="rostopic"
     type="rostopic"
-    args="pub /calibrated std_msgs/Bool true" />
+    args="pub /calibrated std_msgs/Bool true" /-->
 </launch>

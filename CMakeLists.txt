@@ -6,9 +6,9 @@ find_package(catkin REQUIRED)
 
 catkin_package()
 
-find_package(roslaunch)
+catkin_install_python(PROGRAMS scripts/ackermann_controller
+                      DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-foreach(dir config launch meshes urdf)
-	install(DIRECTORY ${dir}/
-		DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
-endforeach(dir)
+install(DIRECTORY config launch meshes urdf scripts
+		DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
